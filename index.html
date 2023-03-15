@@ -13,38 +13,47 @@
 
 <body>
     <h1>Library</h1>
-    <form action="" class="book-entry">
+    <form action="" class="book-entry-form hidden">
         <fieldset>
             <legend>book entry</legend>
-            <list class="form__list">
-                <li>
-                    <label for="title">Title</label>
-                    <input type="text">
+            <list role="list" class="form__list">
+                <li role="listitem">
+                    <label for="title" class="hide-label">Title</label>
+                    <input id="title" type="text" name="title" placeholder="Title" required>
                 </li>
-                <li>
-                    <label for="author">Author</label>
-                    <input type="text">
+                <li role="listitem">
+                    <label for="author" class="hide-label">Author</label>
+                    <input id="author" type="text" name="author" placeholder="Author" required>
                 </li>
-                <li>
-                    <label for="pages">Pages</label>
-                    <input type="number">
+                <li role="listitem">
+                    <label for="pages" class="hide-label">Pages</label>
+                    <input id="pages" type="number" name="pages" placeholder="Pages" required>
                 </li>
-                <li>
-                    <label for="read">Read</label>
-                    <input type="checkbox">
+                <li role="listitem">
+                    <label for="read" class="hide-label">Read</label>
+                    <input type="checkbox" required>
                 </li>
             </list>
         </fieldset>
     </form>
-    <table>
-        <caption>Books in library</caption>
-        <thead>
-            <th>#</th>
-            <th scope="col">Title</th>
-            <th scope="col">Author</th>
-            <th scope="col">Pages</th>
-            <th scope="col">Read</th>
+    <table class="table">
+        <caption class="table__text">Books in library</caption>
+        <thead class="table__head">
+            <th class="column-title" scope="col">#</th>
+            <th class="column-title" scope="col">Title</th>
+            <th class="column-title" scope="col">Author</th>
+            <th class="column-title" scope="col">Pages</th>
+            <th class="column-title" scope="col">Read</th>
         </thead>
+        <tbody>
+            <tr class="row">
+                <td class="number row-data" scope="row">1</td>
+                <td class="title row-data" scope="row">Consider Phlebas</td>
+                <td class="author row-data" scope="row">Ian M. Banks</td>
+                <td class="pages row-data" scope="row">491</td>
+                <td class="read row-data" scope="row">Yes</td>
+            </tr>
+        </tbody>
 
     </table>
 
