@@ -14,7 +14,7 @@ const author = document.querySelector("#author");
 const pages = document.querySelector("#pages");
 const read = document.querySelector("#read");
 // table
-const table = document.querySelector(".table");
+const tableBody = document.querySelector("tbody");
 
 let myLibrary = [
 	{
@@ -52,22 +52,28 @@ function addBookToLibrary(title, author, pages, read) {
 	myLibrary.push(new Books(title, author, pages, read));
 }
 
-console.log(myLibrary);
+function showForm() {
+	form.classList.remove("closed");
+	form.classList.add("expand");
+	fieldset.removeAttribute("hidden");
+	secondaryBtn.removeAttribute("hidden");
+	newBtn.setAttribute("hidden", "hidden");
+}
+
+function hideForm() {
+	form.classList.remove("expand");
+	form.classList.add("closed");
+	fieldset.setAttribute("hidden", "hidden");
+	secondaryBtn.setAttribute("hidden", "hidden");
+	newBtn.removeAttribute("hidden");
+}
 
 function buttonOperations(target) {
 	if (target.id === newBtn.id) {
-		form.classList.remove("closed");
-		form.classList.add("expand");
-		fieldset.removeAttribute("hidden");
-		secondaryBtn.removeAttribute("hidden");
-		newBtn.setAttribute("hidden", "hidden");
+		showForm();
 	}
 	if (target.id === cancelBtn.id) {
-		form.classList.remove("expand");
-		form.classList.add("closed");
-		fieldset.setAttribute("hidden", "hidden");
-		secondaryBtn.setAttribute("hidden", "hidden");
-		newBtn.removeAttribute("hidden");
+		hideForm();
 	}
 	if (target.id === addBtn.id) {
 		const bookRead = read.checked ? "Yes" : "No";
@@ -75,4 +81,28 @@ function buttonOperations(target) {
 	}
 }
 
-buttonContainer.addEventListener("click", (e) => buttonOperations(e.target));
+function displayBooks() {
+	myLibrary.forEach((book, i) => {
+		const html = `<tr class="row">
+						<td class="number row-data" scope="row">${i + 1}</td>
+						<td class="title row-data" scope="row">${book.title}</td>
+						<td class="author row-data" scope="row">${book.author}</td>
+						<td class="pages row-data" scope="row">${book.pages}</td>
+						<td class="read row-data" scope="row">${book.read}</td>
+					</tr>`;
+
+		tableBody.insertAdjacentHTML("beforeend", html);
+	});
+}
+
+function addBookToTable(event) {
+	event.preventDefault();
+	displayBooks();
+}
+
+window.addEventListener("load", () => {
+	displayBooks();
+	buttonContainer.addEventListener("click", (e) => buttonOperations(e.target));
+
+	form.addEventListener("submit", (e) => addBookToTable(e));
+});
