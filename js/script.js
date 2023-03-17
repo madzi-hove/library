@@ -1,3 +1,4 @@
+const main = document.querySelector("main");
 // buttone containers
 const buttonContainer = document.querySelector(".button__container");
 const secondaryBtn = document.querySelector(".secondary-btn");
@@ -14,6 +15,7 @@ const author = document.querySelector("#author");
 const pages = document.querySelector("#pages");
 const read = document.querySelector("#read");
 // table
+const table = document.querySelector("table");
 const tableBody = document.querySelector("tbody");
 
 let myLibrary = [
@@ -43,10 +45,6 @@ function Books(title, author, pages, read) {
 	this.pages = pages;
 	this.read = read;
 }
-
-Books.prototype.report = function () {
-	return `The ${this.book} by ${this.author}, ${this.pages}, ${this.read}`;
-};
 
 function addBookToLibrary(title, author, pages, read) {
 	myLibrary.push(new Books(title, author, pages, read));
@@ -78,7 +76,7 @@ function buttonOperations(target) {
 	if (target.id === addBtn.id) {
 		const bookRead = read.checked ? "Yes" : "No";
 		addBookToLibrary(title.value, author.value, pages.value, bookRead);
-	}
+	} else console.log(target.dataset.indexNumber);
 }
 
 function displayBooks() {
@@ -89,6 +87,8 @@ function displayBooks() {
 						<td class="author row-data" scope="row">${book.author}</td>
 						<td class="pages row-data" scope="row">${book.pages}</td>
 						<td class="read row-data" scope="row">${book.read}</td>
+						<td class="delete" scope="row"><button class="delete-btn"><span class="material-symbols-outlined" data-index-number="${i}">delete
+						</span></button></td>
 					</tr>`;
 
 		tableBody.insertAdjacentHTML("beforeend", html);
@@ -102,7 +102,7 @@ function addBookToTable(event) {
 
 window.addEventListener("load", () => {
 	displayBooks();
-	buttonContainer.addEventListener("click", (e) => buttonOperations(e.target));
+	main.addEventListener("click", (e) => buttonOperations(e.target));
 
 	form.addEventListener("submit", (e) => addBookToTable(e));
 });
