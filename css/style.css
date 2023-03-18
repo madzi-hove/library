@@ -11,6 +11,12 @@ body {
 	font-family: sans-serif;
 }
 
+.material-symbols-outlined {
+	font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 48;
+	/* height: 10px; */
+	/* width: 10px; */
+}
+
 /* container */
 .container {
 	display: flex;
@@ -22,9 +28,9 @@ body {
 /* book entry */
 .book-entry-form {
 	inline-size: 50%;
-	block-size: 0;
 	overflow: hidden;
 	padding: 1rem 0;
+	opacity: 0;
 }
 
 .book-entry-form.closed {
@@ -34,6 +40,7 @@ body {
 
 .book-entry-form.expand {
 	block-size: 170px;
+	opacity: 1;
 	transition-duration: 1s;
 }
 
@@ -63,7 +70,7 @@ li {
 	inline-size: 100%;
 }
 
-li::before {
+li:nth-child(-n + 3)::before {
 	position: absolute;
 	content: "*";
 	color: red;
@@ -71,6 +78,10 @@ li::before {
 	inline-size: 10px;
 	top: -0.75rem;
 	left: 0;
+}
+
+.footer__text {
+	color: red;
 }
 /* table */
 
@@ -110,4 +121,13 @@ tr:nth-child(odd) td {
 
 caption {
 	padding: 10px;
+}
+
+.toggle-btn {
+	margin-left: 1rem;
+}
+
+.delete-btn {
+	background: transparent;
+	border: none;
 }
