@@ -37,7 +37,7 @@
                     </li>
                     <li role="listitem" class="list__item">
                         <label for="read">Read?</label>
-                        <input id="read" type="checkbox" title="Select if book has been read." name="read" required>
+                        <input id="read" type="checkbox" title="Select if book has been read." name="read">
                     </li>
                 </list>
             </fieldset>
@@ -46,11 +46,11 @@
             <div class="button__container">
                 <button id="new-book-btn" class="main-btn new-book-btn btn">New Book</button>
                 <div hidden class="secondary-btn">
+                    <p class="footer__text">* required</p>
                     <button id="add-book-btn" form="form" class="btn" value="Submit">Add book</button>
                     <button id="cancel-btn" class="btn">Cancel</button>
                 </div>
             </div>
-            <p>* required</p>
         </footer>
         <table class="table">
             <caption class="table__text">Books in library</caption>
