@@ -6,50 +6,62 @@ const secondaryBtn = document.querySelector(".secondary-btn");
 const newBtn = document.querySelector("#new-book-btn");
 const addBtn = document.querySelector("#add-book-btn");
 const cancelBtn = document.querySelector("#cancel-btn");
+
 // form
 const form = document.querySelector("form");
 const fieldset = document.querySelector("fieldset");
 // inputs
-const title = document.querySelector("#title");
-const author = document.querySelector("#author");
-const pages = document.querySelector("#pages");
-const read = document.querySelector("#read");
+const titleInput = document.querySelector("#title");
+const authorInput = document.querySelector("#author");
+const pagesInput = document.querySelector("#pages");
+const readInput = document.querySelector("#read");
 // table
 const table = document.querySelector("table");
 const tableBody = document.querySelector("tbody");
-
-let myLibrary = [
+let myLibrary = [];
+let exampleData = [
 	{
 		title: "Excession",
 		author: "Ian M. Banks",
 		pages: 451,
-		read: "Yes",
+		read: { checked: true },
 	},
 	{
 		title: "The Colour of Magic",
 		author: "Terry Pratchett",
 		pages: 240,
-		read: "Yes",
+		read: { checked: true },
 	},
 	{
 		title: "Gardens of the Moon",
 		author: "Steven Erikson",
 		pages: 491,
-		read: "Yes",
+		read: { checked: true },
 	},
 ];
 
-function Books(title, author, pages, read) {
+function exampleBooks() {
+	exampleData.forEach((book) => {
+		console.log(book.read);
+		addBookToLibrary(book.title, book.author, book.pages, book.read);
+	});
+}
+
+// constructor
+function Book(title, author, pages, read) {
+	const bookRead = read.checked ? "Yes" : "No";
 	this.title = title;
 	this.author = author;
 	this.pages = pages;
-	this.read = read;
+	this.read = bookRead;
 }
 
-function addBookToLibrary(title, author, pages, read) {
-	myLibrary.push(new Books(title, author, pages, read));
-}
+Book.prototype.changeReadStatus = function () {
+	this.read = this.read === "Yes" ? "No" : "Yes";
+	displayTable();
+};
 
+// app interface
 function showForm() {
 	form.classList.remove("closed");
 	form.classList.add("expand");
@@ -74,20 +86,49 @@ function buttonOperations(target) {
 		hideForm();
 	}
 	if (target.id === addBtn.id) {
-		const bookRead = read.checked ? "Yes" : "No";
-		addBookToLibrary(title.value, author.value, pages.value, bookRead);
-	} else console.log(target.dataset.indexNumber);
+		addBookToLibrary(
+			titleInput.value,
+			authorInput.value,
+			pagesInput.value,
+			readInput.value
+		);
+	}
+	if (target.classList.contains("delete")) {
+		myLibrary.splice(+target.dataset.indexNumber, 1);
+		tableBody.querySelectorAll("tr").forEach((child) => {
+			child.remove();
+		});
+		displayTable();
+	}
+
+	if (target.classList.contains("toggle-btn")) {
+		myLibrary[target.dataset.indexNumber].changeReadStatus();
+	}
+}
+// library operation
+function addBookToLibrary(title, author, pages, read) {
+	myLibrary.push(new Book(title, author, pages, read));
 }
 
-function displayBooks() {
+function addBookToTable(event) {
+	event.preventDefault();
+	displayTable();
+}
+
+function displayTable() {
+	tableBody.querySelectorAll("tr").forEach((child) => {
+		child.remove();
+	});
 	myLibrary.forEach((book, i) => {
 		const html = `<tr class="row">
 						<td class="number row-data" scope="row">${i + 1}</td>
 						<td class="title row-data" scope="row">${book.title}</td>
 						<td class="author row-data" scope="row">${book.author}</td>
 						<td class="pages row-data" scope="row">${book.pages}</td>
-						<td class="read row-data" scope="row">${book.read}</td>
-						<td class="delete" scope="row"><button class="delete-btn"><span class="material-symbols-outlined" data-index-number="${i}">delete
+						<td class="read row-data" scope="row">${
+							book.read
+						} <button data-index-number="${i}" class="toggle-btn">Change</button></td>
+						<td scope="row"><button class="delete-btn"><span class="delete material-symbols-outlined" data-index-number="${i}">delete
 						</span></button></td>
 					</tr>`;
 
@@ -95,13 +136,9 @@ function displayBooks() {
 	});
 }
 
-function addBookToTable(event) {
-	event.preventDefault();
-	displayBooks();
-}
-
 window.addEventListener("load", () => {
-	displayBooks();
+	exampleBooks();
+	displayTable();
 	main.addEventListener("click", (e) => buttonOperations(e.target));
 
 	form.addEventListener("submit", (e) => addBookToTable(e));
