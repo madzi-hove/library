@@ -42,7 +42,6 @@ let exampleData = [
 
 function exampleBooks() {
 	exampleData.forEach((book) => {
-		console.log(book.read);
 		addBookToLibrary(book.title, book.author, book.pages, book.read);
 	});
 }
